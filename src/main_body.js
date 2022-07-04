@@ -2,24 +2,26 @@ import React from "react";
 import "./main_body.css"
 
 class MainBody extends React.Component {
+    start_state = {
+        button_class: 'center',
+        label_class: 'center',
+        block_class: 'right',
+        first_image_url: '',
+        second_image_url: '',
+        first_name: '',
+        second_name: '',
+        first_sub_count: 0,
+        second_sub_count: 0,
+        members_visibility: false,
+        need_restart: false,
+        clicked_first: false,
+        now_score: 0,
+        max_score_span_class: ''
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            button_class: 'center',
-            label_class: 'center',
-            block_class: 'right',
-            first_image_url: '',
-            second_image_url: '',
-            first_name: '',
-            second_name: '',
-            first_sub_count: 0,
-            second_sub_count: 0,
-            members_visibility: false,
-            need_restart: false,
-            clicked_first: false,
-            now_score: 0,
-            max_score_span_class: ''
-        };
+        this.state = this.start_state;
     }
 
     componentDidMount() {
@@ -121,7 +123,7 @@ class MainBody extends React.Component {
         let to_return = [];
         if (!this.state.members_visibility || !is_clicked) {
             to_return.push(
-                <div className="variant" onClick={() => this.clickOnVariant(false)}>
+                <div className="variant" onClick={() => this.clickOnVariant(is_right)}>
                     {this.genVariantInside(name, image_url, sub_count)}
                 </div>
             );
@@ -146,20 +148,12 @@ class MainBody extends React.Component {
     restart() {
         this.moveLeftBlock(false);
         setTimeout(() => {
+            this.setState(this.start_state);
             this.setState({
                 button_class: 'right',
                 label_class: 'left',
                 block_class: 'right',
-                first_image_url: '',
-                second_image_url: '',
-                first_name: '',
-                second_name: '',
-                first_sub_count: 0,
-                second_sub_count: 0,
-                members_visibility: false,
-                need_restart: false,
-                clicked_first: false,
-                now_score: 0,
+                max_score_span_class: 'transparent'
             });
             setTimeout(() => this.moveCenterButton(), 10);
         }, 500);
