@@ -81,7 +81,7 @@ class MainBody extends React.Component {
     }
 
     clickOnVariant(is_right) {
-        if (this.state.members_visibility) {
+        if (this.state.members_visibility || this.state.first_name === '' || this.state.second_name === '') {
             return;
         }
         if ((!is_right && this.state.first_sub_count < this.state.second_sub_count) || (is_right && this.state.second_sub_count < this.state.first_sub_count)) {
