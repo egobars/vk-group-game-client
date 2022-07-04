@@ -32,28 +32,30 @@ class MainBody extends React.Component {
         }
     }
 
-    moveCenterBlock() {
-        this.setState({block_class: 'center'});
+    setStateFirst(obj, photo, name, members_count) {
+        obj.setState({first_image_url: photo, first_name: name, first_sub_count: members_count});
+    }
+
+    setStateSecond(obj, photo, name, members_count) {
+        obj.setState({second_image_url: photo, second_name: name, second_sub_count: members_count});
+    }
+
+    makeRequest(obj, func) {
         fetch('/get/group')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 let name = data.name;
                 if (name.length > 25) {
                     name = name.slice(0, 22) + '...';
                 }
-                this.setState({first_image_url: data.photo, first_name: name, first_sub_count: data.members_count});
+                func(obj, data.photo, name, data.members_count)
             });
-        fetch('/get/group')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                let name = data.name;
-                if (name.length > 22) {
-                    name = name.slice(0, 19) + '...';
-                }
-                this.setState({second_image_url: data.photo, second_name: name, second_sub_count: data.members_count});
-            });
+    }
+
+    moveCenterBlock() {
+        this.setState({block_class: 'center'});
+        this.makeRequest(this, this.setStateFirst);
+        this.makeRequest(this, this.setStateSecond);
     }
 
     moveRightBlock() {
