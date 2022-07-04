@@ -5,9 +5,9 @@ class MainBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            button_class: '',
-            label_class: '',
-            block_class: 'right_',
+            button_class: 'center',
+            label_class: 'center',
+            block_class: 'right',
             first_image_url: '',
             second_image_url: '',
             first_name: '',
@@ -31,7 +31,7 @@ class MainBody extends React.Component {
     }
 
     moveCenterBlock() {
-        this.setState({block_class: ''});
+        this.setState({block_class: 'center'});
         fetch('/get/group')
             .then(response => response.json())
             .then(data => {
@@ -55,25 +55,25 @@ class MainBody extends React.Component {
     }
 
     moveRightBlock() {
-        this.setState({block_class: 'right_', first_name: '', second_name: '', members_visibility: false, clicked_first: false});
+        this.setState({block_class: 'right', first_name: '', second_name: '', members_visibility: false, clicked_first: false});
         setTimeout(() => this.moveCenterBlock(), 10);
     }
 
     moveLeftBlock(need_next) {
-        this.setState({block_class: 'left_'});
+        this.setState({block_class: 'left'});
         if (need_next) {
             setTimeout(() => this.moveRightBlock(), 500);
         }
     }
 
     moveCenterButton() {
-        this.setState({button_class: '', label_class: '', max_score_span_class: ''});
+        this.setState({button_class: 'center', label_class: 'center', max_score_span_class: ''});
     }
 
     moveLeftButton() {
-        this.setState({button_class: 'left_', label_class: 'right_', max_score_span_class: 'transparent_'});
+        this.setState({button_class: 'left', label_class: 'right', max_score_span_class: 'transparent_'});
         setTimeout(() => {
-            this.setState({button_class: 'hidden_', label_class: 'hidden_'});
+            this.setState({button_class: 'hidden', label_class: 'hidden'});
             setTimeout(() => this.moveCenterBlock(), 10);
         }, 500);
     }
@@ -90,9 +90,9 @@ class MainBody extends React.Component {
         }
     }
 
-    genFirstVariantInside() {
+    genVariantInside(name, image_url, sub_count) {
         let to_return = [];
-        if (this.state.first_name == '') {
+        if (name === '') {
             to_return.push(
                 <div className="loader_wrapper">
                     <div className="loader" />
@@ -103,92 +103,39 @@ class MainBody extends React.Component {
                 <div className="stripe"/>
             )
             to_return.push(
-                <img className="variant_image" src={this.state.first_image_url} alt="first_image"/>
+                <img className="variant_image" src={image_url} alt="first_image"/>
             )
             to_return.push(
-                <span>{this.state.first_name}</span>
+                <span>{name}</span>
             )
             if (this.state.members_visibility) {
                 to_return.push(
-                    <span>{"Подписчики: " + this.state.first_sub_count.toString()}</span>
+                    <span>{"Подписчики: " + sub_count.toString()}</span>
                 )
             }
         }
         return to_return;
     }
 
-    genFirstVariant() {
+    genVariant(name, image_url, sub_count, is_right, is_good, is_clicked) {
         let to_return = [];
-        if (!this.state.members_visibility || !this.state.clicked_first) {
+        if (!this.state.members_visibility || !is_clicked) {
             to_return.push(
-                <div className={"variant"} onClick={() => this.clickOnVariant(false)}>
-                    {this.genFirstVariantInside()}
+                <div className="variant" onClick={() => this.clickOnVariant(false)}>
+                    {this.genVariantInside(name, image_url, sub_count)}
                 </div>
             );
         } else {
-            if (this.state.first_sub_count >= this.state.second_sub_count) {
+            if (is_good) {
                 to_return.push(
-                    <div className={"good_variant"} onClick={() => this.clickOnVariant(false)}>
-                        {this.genFirstVariantInside()}
+                    <div className="variant" quality="good" onClick={() => this.clickOnVariant(is_right)}>
+                        {this.genVariantInside(name, image_url, sub_count)}
                     </div>
                 );
             } else {
                 to_return.push(
-                    <div className={"bad_variant"} onClick={() => this.clickOnVariant(false)}>
-                        {this.genFirstVariantInside()}
-                    </div>
-                );
-            }
-        }
-        return to_return;
-    }
-
-    genSecondVariantInside() {
-        let to_return = [];
-        if (this.state.second_name == '') {
-            to_return.push(
-                <div className="loader_wrapper">
-                    <div className="loader" />
-                </div>
-            )
-        } else {
-            to_return.push(
-                <div className="stripe"/>
-            )
-            to_return.push(
-                <img className="variant_image" src={this.state.second_image_url} alt="second_image"/>
-            )
-            to_return.push(
-                <span>{this.state.second_name}</span>
-            )
-            if (this.state.members_visibility) {
-                to_return.push(
-                    <span>{"Подписчики: " + this.state.second_sub_count.toString()}</span>
-                )
-            }
-        }
-        return to_return;
-    }
-
-    genSecondVariant() {
-        let to_return = [];
-        if (!this.state.members_visibility || this.state.clicked_first) {
-            to_return.push(
-                <div className={"variant"} onClick={() => this.clickOnVariant(true)}>
-                    {this.genSecondVariantInside()}
-                </div>
-            );
-        } else {
-            if (this.state.first_sub_count <= this.state.second_sub_count) {
-                to_return.push(
-                    <div className={"good_variant"} onClick={() => this.clickOnVariant(true)}>
-                        {this.genSecondVariantInside()}
-                    </div>
-                );
-            } else {
-                to_return.push(
-                    <div className={"bad_variant"} onClick={() => this.clickOnVariant(true)}>
-                        {this.genSecondVariantInside()}
+                    <div className="variant" quality="bad" onClick={() => this.clickOnVariant(is_right)}>
+                        {this.genVariantInside(name, image_url, sub_count)}
                     </div>
                 );
             }
@@ -200,9 +147,9 @@ class MainBody extends React.Component {
         this.moveLeftBlock(false);
         setTimeout(() => {
             this.setState({
-                button_class: 'right_',
-                label_class: 'left_',
-                block_class: 'right_',
+                button_class: 'right',
+                label_class: 'left',
+                block_class: 'right',
                 first_image_url: '',
                 second_image_url: '',
                 first_name: '',
@@ -219,35 +166,33 @@ class MainBody extends React.Component {
     }
 
     genButton() {
-        let to_return = [];
         if (this.state.members_visibility) {
             if (this.state.need_restart) {
-                to_return.push(
+                return (
                     <button className="next_button" onClick={() => this.restart()}>Заново</button>
                 )
             } else {
-                to_return.push(
+                return (
                     <button className="next_button" onClick={() => this.moveLeftBlock(true)}>Далее</button>
                 )
             }
         } else {
-            to_return.push(
+            return (
                 <button className="hidden_next_button" onClick={() => this.moveLeftBlock(true)}>Далее</button>
             )
         }
-        return to_return;
     }
 
     render() {
         let to_return;
-        if (this.state.button_class != 'hidden_') {
+        if (this.state.button_class !== 'hidden') {
             to_return = (
                 <div className="wrapper">
-                    <div className={this.state.label_class + "label"}>
+                    <div className="label" position={this.state.label_class.toString()}>
                         <h1>VK GROUP GAME</h1>
                     </div>
                     <span className={this.state.max_score_span_class.toString() + "max_score_span"}>Максимальный счёт: {this.state.max_score}</span>
-                    <div className={this.state.button_class + "block"}>
+                    <div className="block" position={this.state.button_class.toString()}>
                         <button onClick={() => this.moveLeftButton()}>Старт!</button>
                     </div>
                 </div>
@@ -255,12 +200,12 @@ class MainBody extends React.Component {
         } else {
             to_return = (
                 <div className="wrapper">
-                    <div className={this.state.block_class + "block"}>
+                    <div className="block" position={this.state.block_class.toString()}>
                         <h1>У кого больше подписчиков?</h1>
                         <span className="score_span">Текущий счёт: {this.state.now_score}</span>
                         <div className="variant_block">
-                            {this.genFirstVariant()}
-                            {this.genSecondVariant()}
+                            {this.genVariant(this.state.first_name, this.state.first_image_url, this.state.first_sub_count, false, this.state.first_sub_count >= this.state.second_sub_count, this.state.clicked_first)}
+                            {this.genVariant(this.state.second_name, this.state.second_image_url, this.state.second_sub_count, true, this.state.second_sub_count >= this.state.first_sub_count, !this.state.clicked_first)}
                         </div>
                         {this.genButton()}
                     </div>

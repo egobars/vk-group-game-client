@@ -11,10 +11,16 @@
     gap: 10px;
 }
 
-.wrapper h1 {
+h1 {
     margin: 0;
     padding: 0;
     font-size: 60px;
+}
+
+span {
+    margin-top: 5px;
+    margin-left: 20px;
+    font-size: 20px;
 }
 
 button {
@@ -36,50 +42,40 @@ button:hover {
     flex-direction: column;
     gap: 50px;
     align-items: center;
+}
+
+.block[position='center'] {
     transition: all 500ms ease-out;
 }
 
-.left_block {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    align-items: center;
+.block[position='left'] {
     margin-left: calc(-100vw - 940px);
     transition: all 500ms ease-in;
 }
 
-.right_block {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    align-items: center;
+.block[position='right'] {
     visibility: hidden;
     margin-left: calc(100vw + 940px);
 }
 
 .label {
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label[position='center'] {
     transition: all 500ms ease-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.left_label {
-    white-space: nowrap;
+.label[position='left'] {
     margin-left: calc(-100vw - 940px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.right_label {
-    white-space: nowrap;
-    transition: all 500ms ease-in;
+.label[position='right'] {
     margin-left: calc(100vw + 940px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: all 500ms ease-in;
 }
 
 .variant_block {
@@ -103,36 +99,16 @@ button:hover {
     transform: scale(1.2);
 }
 
-.good_variant {
-    width: 300px;
-    height: 400px;
+.variant[quality='good'] {
     border: 10px solid lime;
     border-radius: 30px;
-    box-shadow: 0 5px 10px 11px rgba(34, 60, 80, 0.2);
-    display: flex;
-    flex-direction: column;
-    transition: all 100ms ease;
-    background-color: white;
+    padding: 0;
 }
 
-.good_variant:hover {
-    transform: scale(1.2);
-}
-
-.bad_variant {
-    width: 300px;
-    height: 400px;
+.variant[quality='bad'] {
     border: 10px solid red;
     border-radius: 30px;
-    box-shadow: 0 5px 10px 11px rgba(34, 60, 80, 0.2);
-    display: flex;
-    flex-direction: column;
-    transition: all 100ms ease;
-    background-color: white;
-}
-
-.bad_variant:hover {
-    transform: scale(1.2);
+    padding: 0;
 }
 
 .loader_wrapper {
@@ -168,24 +144,6 @@ button:hover {
 .variant_image {
     width: 300px;
     height: 300px;
-}
-
-.variant span {
-    margin-top: 5px;
-    margin-left: 20px;
-    font-size: 20px;
-}
-
-.good_variant span {
-    margin-top: 5px;
-    margin-left: 20px;
-    font-size: 20px;
-}
-
-.bad_variant span {
-    margin-top: 5px;
-    margin-left: 20px;
-    font-size: 20px;
 }
 
 .next_button {
