@@ -60,13 +60,13 @@ class MainBody extends React.Component {
 
     moveRightBlock() {
         this.setState({block_class: 'right', first_name: '', second_name: '', members_visibility: false, clicked_first: false});
-        setTimeout(() => this.moveCenterBlock(), 10);
+        setTimeout(() => this.moveCenterBlock(), 100);
     }
 
     moveLeftBlock(need_next) {
         this.setState({block_class: 'left'});
         if (need_next) {
-            setTimeout(() => this.moveRightBlock(), 500);
+            setTimeout(() => this.moveRightBlock(), 700);
         }
     }
 
@@ -78,8 +78,8 @@ class MainBody extends React.Component {
         this.setState({button_class: 'left', label_class: 'right', max_score_span_class: 'transparent_'});
         setTimeout(() => {
             this.setState({button_class: 'hidden', label_class: 'hidden'});
-            setTimeout(() => this.moveCenterBlock(), 10);
-        }, 500);
+            setTimeout(() => this.moveCenterBlock(), 100);
+        }, 700);
     }
 
     clickOnVariant(is_right) {
@@ -157,8 +157,8 @@ class MainBody extends React.Component {
                 block_class: 'right',
                 max_score_span_class: 'transparent'
             });
-            setTimeout(() => this.moveCenterButton(), 10);
-        }, 500);
+            setTimeout(() => this.moveCenterButton(), 100);
+        }, 700);
     }
 
     genButton() {
