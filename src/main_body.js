@@ -41,7 +41,7 @@ class MainBody extends React.Component {
     }
 
     makeRequest(obj, func) {
-        fetch('server/get/group')
+        fetch('get/group')
             .then(response => response.json())
             .then(data => {
                 let name = data.name;
